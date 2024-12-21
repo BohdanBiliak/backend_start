@@ -12,3 +12,4 @@ export  const db: DBtype = {
     ]
 }
 export type DBtype = {courses: CourseType[]}
+

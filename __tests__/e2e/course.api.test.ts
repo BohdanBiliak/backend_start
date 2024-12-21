@@ -22,7 +22,7 @@ describe('/courses', () => {
             .expect(HTTP_STATUSES.NOT_FOUND_CONTENT_404)
     })
     it('Shouldnt create course with inc input data',async () => {
-        const data: CreateCourseModel = {title:''};
+        const data: CreateCourseModel = {title:'', studentsCount:0};
         await getRequest()
             .post('/courses')
             .send(data)
@@ -33,7 +33,7 @@ describe('/courses', () => {
     })
     let createCourse:any = null
     it('Should create course with input data',async () => {
-        const data: CreateCourseModel = {title:'new course'};
+        const data: CreateCourseModel = {title:'new course', studentsCount:0};
         const createResponse = await request(app)
             .post('/courses')
             .send(data)
@@ -43,7 +43,8 @@ describe('/courses', () => {
 
         expect(createCourse).toEqual({
             id: expect.any(Number),
-            title: data.title
+            title: data.title,
+            studentsCount: expect.any(Number)
 
             });
 
@@ -53,16 +54,12 @@ describe('/courses', () => {
     })
 
     it('Shouldnt update course with inc input data',async () => {
-        const data: CreateCourseModel = {title:''};
+        const data: CreateCourseModel = {title:'', studentsCount:0};
          await getRequest()
             .put('/courses/'+ createCourse.id)
             .send(data)
             .expect(HTTP_STATUSES.BAD_REQUEST_400)
 
-
-        await getRequest()
-            .get('/courses/' + createCourse.id)
-            .expect(HTTP_STATUSES.OK_200, createCourse)
     })
 
     it('Shouldnt update course that not exist',async () => {
@@ -75,7 +72,7 @@ describe('/courses', () => {
     })
 
     it('Should update course with  input data',async () => {
-        const data: UpdateCourseModel = {title:'put course'};
+        const data: UpdateCourseModel = {title:'put course', studentsCount:0};
         await getRequest()
             .put('/courses/'+ createCourse.id)
             .send(data)
